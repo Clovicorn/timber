@@ -48,11 +48,15 @@ int main(void)
     Texture texTree;
     Texture texBee;
     Texture texBranch;
+    Texture texTimebarBack;
+    Texture texTimebarFront;
 
     texBackground.loadFromFile("graphics/background.png");
     texTree.loadFromFile("graphics/tree.png");
     texBee.loadFromFile("graphics/bee.png");
     texBranch.loadFromFile("graphics/branch.png");
+    texTimebarBack.loadFromFile("graphics/1_Back.png");
+    texTimebarFront.loadFromFile("graphics/1_Front.png");
 
     Sprite spriteBackground;
     Sprite spriteTree;
@@ -123,12 +127,16 @@ int main(void)
     int score = 0;
     std::string baseScoreText = "Score = ";
 
-    RectangleShape timebar;
+    RectangleShape timebarFront;
+    RectangleShape timebarBack;
     float timebarStartWidth = 300;
     float timebarHeight = 45;
-    timebar.setSize(Vector2f(timebarStartWidth, timebarHeight));
-    timebar.setFillColor(Color::Red);
-    timebar.setPosition((vm.width / 2) - timebarStartWidth / 2, (vm.height - timebarHeight) - 15);
+    timebarBack.setSize(Vector2f(timebarStartWidth, timebarHeight));
+    timebarBack.setTexture(&texTimebarBack);
+    timebarBack.setPosition((vm.width / 2) - timebarStartWidth / 2, (vm.height - timebarHeight) - 15);
+    timebarFront.setSize(Vector2f(timebarStartWidth, timebarHeight));
+    timebarFront.setTexture(&texTimebarFront);
+    timebarFront.setPosition((vm.width / 2) - timebarStartWidth / 2, (vm.height - timebarHeight) - 15);
 
     Time gameTimeTotal;
     float gameTimeRemaining = 6.0f;
@@ -245,7 +253,7 @@ int main(void)
                 gameText.setPosition(vm.width / 2.0f, vm.height / 2.0f);
                 gameTimeRemaining = 6.0f;
             }
-            timebar.setSize(Vector2f(timebarWPS * gameTimeRemaining, timebarHeight));
+            timebarFront.setSize(Vector2f(timebarWPS * gameTimeRemaining, timebarHeight));
 
             if (!beeActive)
             {
@@ -359,7 +367,8 @@ int main(void)
         window.draw(axe.sprite);
         window.draw(log.sprite);
 
-        window.draw(timebar);
+        window.draw(timebarBack);
+        window.draw(timebarFront);
         if (paused)
         {
             window.draw(gameText);
